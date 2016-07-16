@@ -6,7 +6,7 @@ import language.implicitConversions
 import org.scalajs.dom.raw.HTMLCanvasElement
 
 /**
-  * WebVRApi API, Editor’s Draft, 1 June 2016.
+  * WebVR API, Editor’s Draft, 1 June 2016.
   *
   * [[https://w3c.github.io/webvr/]]
   */

@@ -1,7 +1,7 @@
 package com.kodekutters.webvr
 
 /*
- * Façade to the WebVRApi API, Editor’s Draft, 1 June 2016.
+ * Façade to the WebVR API, Editor’s Draft, 1 June 2016.
  *
  * [[https://w3c.github.io/webvr/]]
  *
