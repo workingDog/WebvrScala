@@ -1,3 +1,5 @@
+package com.kodekutters.webvr
+
 /*
  * Façade to the WebVRApi API, Editor’s Draft, 1 June 2016.
  *
@@ -5,11 +7,7 @@
  *
  */
 
-import VREyeType.VREyeType
-import WebVRApi.{VREye, VRSource}
-
 import org.scalajs.dom._
-import org.scalajs.dom.raw.HTMLCanvasElement
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
@@ -20,15 +18,6 @@ import scala.concurrent._
 import scala.language.implicitConversions
 
 
-/**
-  * the WebVRApi
-  */
-@js.native
-object WebVRApi extends js.Object {
-  type VREye = String   // "left" | "right"
-  type VRSource = HTMLCanvasElement  // or OffscreenCanvas  todo
-//  type VRLayer = VRLayer
-}
 
 /**
   * The VRLayer interface is provided to a VRDisplay and presented in the HMD.
@@ -237,9 +226,6 @@ trait Gamepad extends js.Object {
   val displayId: Double
 }
 
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-
 /**
   * represent the VREyeType as an enumeration
   */
@@ -247,13 +233,4 @@ object VREyeType extends Enumeration {
   type VREyeType = Value
   val Left = Value("left")
   val Right = Value("right")
-}
-
-/**
-  * a set of implicit conversions
-  */
-object WebVRApiImplicits {
-
-  /** convert VREyeType to its string representation, "left" or "right" */
-  implicit def VREyeTypeToString(t: VREyeType): String = t.toString
 }
