@@ -6,19 +6,18 @@
  */
 
 import VREyeType.VREyeType
-import WebVRApi.{VREye, VRLayer, VRSource}
+import WebVRApi.{VREye, VRSource}
 
 import org.scalajs.dom._
-
-import scala.scalajs.js
-import js.|
-import scala.concurrent._
-import scala.scalajs.js.annotation._
-import scala.scalajs.js.{Promise => _, _}
 import org.scalajs.dom.raw.HTMLCanvasElement
 
+import scala.scalajs.js
+import scala.scalajs.js.annotation._
+import scala.scalajs.js.{Promise => _, _}
 import scala.scalajs.js.typedarray.Float32Array
-import js.JSConverters._
+
+import scala.concurrent._
+import scala.language.implicitConversions
 
 
 /**
@@ -28,17 +27,25 @@ import js.JSConverters._
 object WebVRApi extends js.Object {
   type VREye = String   // "left" | "right"
   type VRSource = HTMLCanvasElement  // or OffscreenCanvas  todo
-  type VRLayer = js.Any // todo see ref: 2.2
+//  type VRLayer = VRLayer
 }
 
 /**
   * The VRLayer interface is provided to a VRDisplay and presented in the HMD.
   */
-@js.native
+@ScalaJSDefined
 trait VRLayer extends js.Object {
-  var source: VRSource = js.native
-  var leftBounds: js.Array[Float] = js.native
-  var rightBounds: js.Array[Float] = js.native
+  var source: VRSource
+  var leftBounds: js.Array[Float]
+  var rightBounds: js.Array[Float]
+}
+
+object VRLayer {
+  def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
+    js.Dynamic
+      .literal(source = source, leftBounds = leftBounds, rightBounds = rightBounds)
+      .asInstanceOf[VRLayer]
+  }
 }
 
 /**
@@ -47,15 +54,15 @@ trait VRLayer extends js.Object {
   */
 @js.native
 class VRDisplay extends EventTarget {
-  var isConnected: Boolean = js.native
-  var isPresenting: Boolean = js.native
+  def isConnected: Boolean = js.native
+  def isPresenting: Boolean = js.native
   /** Dictionary of capabilities describing the VRDisplay. */
-  var capabilities: VRDisplayCapabilities = js.native
+  val capabilities: VRDisplayCapabilities = js.native
   /**
     * If this VRDisplay supports room-scale experiences, the optional
     * stage attribute contains details on the room-scale parameters.
     */
-  var stageParameters: VRStageParameters = js.native
+  val stageParameters: VRStageParameters = js.native
 
   /* Return the current VREyeParameters for the given eye. */
   def getEyeParameters(whichEye: String): VREyeParameters = js.native
@@ -64,9 +71,9 @@ class VRDisplay extends EventTarget {
     * An identifier for this distinct VRDisplay. Used as an
     * association point in the Gamepad API.
     */
-  var displayId: Double = js.native
+  val displayId: Double = js.native
   /** A display name, a user-readable name identifying it. */
-  var displayName: String = js.native
+  val displayName: String = js.native
 
   /**
     * Return a VRPose containing the future predicted pose of the VRDisplay
@@ -148,87 +155,86 @@ class VRDisplay extends EventTarget {
   * The VRDisplayCapabilities interface describes the capabilities of a VRDisplay.
   * These are expected to be static per-device/per-user.
   */
-@js.native
+@ScalaJSDefined
 trait VRDisplayCapabilities extends js.Object {
-  var hasPosition: Boolean = js.native
-  var hasOrientation: Boolean = js.native
-  var hasExternalDisplay: Boolean = js.native
-  var canPresent: Boolean = js.native
-  var maxLayers: Double = js.native
+  val hasPosition: Boolean
+  val hasOrientation: Boolean
+  val hasExternalDisplay: Boolean
+  val canPresent: Boolean
+  val maxLayers: Double
 }
 
 /**
   * The VRFieldOfView interface represents a field of view, as given by 4 degrees describing the view from a center point.
   */
-@js.native
+@ScalaJSDefined
 trait VRFieldOfView extends js.Object {
-  var upDegrees: Double = js.native
-  var rightDegrees: Double = js.native
-  var downDegrees: Double = js.native
-  var leftDegrees: Double = js.native
+  val upDegrees: Double
+  val rightDegrees: Double
+  val downDegrees: Double
+  val leftDegrees: Double
 }
 
 /**
   * The VRPose interface represents a sensor’s state at a given timestamp.
   */
-@js.native
+@ScalaJSDefined
 trait VRPose extends js.Object {
-  var timestamp: Double = js.native
-  var position: Float32Array = js.native
-  var linearVelocity: Float32Array = js.native
-  var linearAcceleration: Float32Array = js.native
-  var orientation: Float32Array = js.native
-  var angularVelocity: Float32Array = js.native
-  var angularAcceleration: Float32Array = js.native
+  val timestamp: Double
+  val position: Float32Array
+  val linearVelocity: Float32Array
+  val linearAcceleration: Float32Array
+  val orientation: Float32Array
+  val angularVelocity: Float32Array
+  val angularAcceleration: Float32Array
 }
 
 /**
   * The VREyeParameters interface represents all the information required to correctly render a scene for a given eye.
   */
-@js.native
+@ScalaJSDefined
 trait VREyeParameters extends js.Object {
-  var offset: Float32Array = js.native
-  var fieldOfView: VRFieldOfView = js.native
-  var renderWidth: Double = js.native
-  var renderHeight: Double = js.native
+  val offset: Float32Array
+  val fieldOfView: VRFieldOfView
+  val renderWidth: Double
+  val renderHeight: Double
 }
 
 /**
   * The VRStageParameters interface represents the values describing the the stage/play area for devices that support room-scale experiences.
   */
-@js.native
+@ScalaJSDefined
 trait VRStageParameters extends js.Object {
-  var sittingToStandingTransform: Float32Array = js.native
-  var sizeX: Double = js.native
-  var sizeZ: Double = js.native
+  val sittingToStandingTransform: Float32Array
+  val sizeX: Double
+  val sizeZ: Double
 }
 
 /**
   * Navigator Interface extension
   */
-@js.native
+@ScalaJSDefined
 trait Navigator extends js.Object {
-  def getVRDisplays(): Promise[js.Array[VRDisplay]] = js.native
-
-  var activeVRDisplays: js.Array[VRDisplay] = js.native
+  def getVRDisplays(): Promise[js.Array[VRDisplay]]
+  val activeVRDisplays: js.Array[VRDisplay]
 }
 
 /**
   * Window Interface extension
   */
-@js.native
+@ScalaJSDefined
 trait Window extends js.Object {
-  var onvrdisplayconnected: js.Function1[Event, Any] = js.native
-  var onvrdisplaydisconnected: js.Function1[Event, Any] = js.native
-  var onvrdisplaypresentchange: js.Function1[Event, Any] = js.native
+  var onvrdisplayconnected: js.Function1[Event, Any]
+  var onvrdisplaydisconnected: js.Function1[Event, Any]
+  var onvrdisplaypresentchange: js.Function1[Event, Any]
 }
 
 /**
   * Gamepad Interface extension
   */
-@js.native
+@ScalaJSDefined
 trait Gamepad extends js.Object {
-  var displayId: Double = js.native
+  val displayId: Double
 }
 
 //-----------------------------------------------------------------------------
