@@ -5,6 +5,8 @@ import com.kodekutters.webvr.VREyeType.VREyeType
 import language.implicitConversions
 import org.scalajs.dom.raw.HTMLCanvasElement
 
+import scala.scalajs.js.|
+
 /**
   * WebVR API, Editor’s Draft, 1 June 2016.
   *
@@ -16,6 +18,6 @@ package object webvr {
   implicit def VREyeTypeToString(t: VREyeType): String = t.toString
 
   type VREye = String // "left" | "right"
-  type VRSource = HTMLCanvasElement // or OffscreenCanvas  todo
+  type VRSource = HTMLCanvasElement | OffscreenCanvas
 }
 

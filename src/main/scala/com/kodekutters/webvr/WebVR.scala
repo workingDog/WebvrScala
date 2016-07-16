@@ -29,13 +29,14 @@ trait VRLayer extends js.Object {
   var rightBounds: js.Array[Float]
 }
 
-object VRLayer {
-  def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
-    js.Dynamic
-      .literal(source = source, leftBounds = leftBounds, rightBounds = rightBounds)
-      .asInstanceOf[VRLayer]
-  }
-}
+// cannot compile this
+//object VRLayer {
+//  def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
+//    js.Dynamic
+//      .literal(source = source, leftBounds = leftBounds, rightBounds = rightBounds)
+//      .asInstanceOf[VRLayer]
+//  }
+//}
 
 /**
   * The VRDisplay interface forms the base of all VR devices supported by this API.
