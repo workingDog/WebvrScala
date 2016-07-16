@@ -1,6 +1,6 @@
 package com.kodekutters.webvr
 
-import org.scalajs.dom.Blob
+import org.scalajs.dom.{Blob, Transferable}
 import org.scalajs.dom.webgl.RenderingContext
 
 import scala.concurrent.Promise

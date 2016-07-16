@@ -18,7 +18,6 @@ import scala.concurrent._
 import scala.language.implicitConversions
 
 
-
 /**
   * The VRLayer interface is provided to a VRDisplay and presented in the HMD.
   */
@@ -29,14 +28,14 @@ trait VRLayer extends js.Object {
   var rightBounds: js.Array[Float]
 }
 
-// cannot compile this
-//object VRLayer {
-//  def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
-//    js.Dynamic
-//      .literal(source = source, leftBounds = leftBounds, rightBounds = rightBounds)
-//      .asInstanceOf[VRLayer]
-//  }
-//}
+// todo cannot compile this with apply(source: source, ...) using js.Any workaround
+object VRLayer {
+  def apply(source: js.Any, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
+    js.Dynamic
+      .literal(source = source, leftBounds = leftBounds, rightBounds = rightBounds)
+      .asInstanceOf[VRLayer]
+  }
+}
 
 /**
   * The VRDisplay interface forms the base of all VR devices supported by this API.
@@ -46,6 +45,7 @@ trait VRLayer extends js.Object {
 class VRDisplay extends EventTarget {
   def isConnected: Boolean = js.native
   def isPresenting: Boolean = js.native
+
   /** Dictionary of capabilities describing the VRDisplay. */
   val capabilities: VRDisplayCapabilities = js.native
   /**
