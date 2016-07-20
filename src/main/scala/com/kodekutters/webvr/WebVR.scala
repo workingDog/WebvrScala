@@ -30,9 +30,9 @@ trait VRLayer extends js.Object {
 
 // todo cannot compile this with apply(source: source, ...) using js.Any workaround
 object VRLayer {
-  def apply(source: js.Any, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
+  def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
     js.Dynamic
-      .literal(source = source, leftBounds = leftBounds, rightBounds = rightBounds)
+      .literal(source = source.merge[js.Any] , leftBounds = leftBounds, rightBounds = rightBounds)
       .asInstanceOf[VRLayer]
   }
 }
