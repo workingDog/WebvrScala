@@ -13,7 +13,6 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation._
 import scala.scalajs.js.{Promise => _, _}
 import scala.scalajs.js.typedarray.Float32Array
-
 import scala.concurrent._
 import scala.language.implicitConversions
 
@@ -28,7 +27,6 @@ trait VRLayer extends js.Object {
   var rightBounds: js.Array[Float]
 }
 
-// todo cannot compile this with apply(source: source, ...) using js.Any workaround
 object VRLayer {
   def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
     js.Dynamic
@@ -230,8 +228,8 @@ trait Gamepad extends js.Object {
 /**
   * represent the VREyeType as an enumeration
   */
-object VREyeType extends Enumeration {
-  type VREyeType = Value
+object VREye extends Enumeration {
+  type VREye = Value
   val Left = Value("left")
   val Right = Value("right")
 }

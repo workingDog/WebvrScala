@@ -9,15 +9,26 @@ the WebVR capable browsers.
 ## Usage
 
 
-## Dependencies 
+## Installation and packaging
+
+To compile and generate a javascript file from the source code:
+
+    sbt fullOptJS 
+
+The javascript file (webvrscala-opt.js) will be in the "./target/scala-2.11" directory.
 
 
-## License
+To publish **WebvrScala** to your local (Ivy) repository, simply type:
 
+    sbt publishLocal
+    
+Then put this in your build.sbt file
+
+    libraryDependencies += "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT"
 
 ## Status
 
-just starting, not yet functional
+work in progress
 
 
 

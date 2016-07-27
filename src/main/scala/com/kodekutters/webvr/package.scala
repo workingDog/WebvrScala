@@ -1,6 +1,6 @@
 package com.kodekutters
 
-import com.kodekutters.webvr.VREyeType.VREyeType
+import com.kodekutters.webvr.VREye.VREye
 
 import language.implicitConversions
 import org.scalajs.dom.raw.HTMLCanvasElement
@@ -14,10 +14,9 @@ import scala.scalajs.js.|
   */
 package object webvr {
 
-  /** convert VREyeType to its string representation, "left" or "right" */
-  implicit def VREyeTypeToString(t: VREyeType): String = t.toString
+  /** convert VREye type to its string representation, "left" or "right" */
+  implicit def VREyeTypeToString(t: VREye): String = t.toString
 
-  type VREye = String // "left" | "right"
   type VRSource = HTMLCanvasElement | OffscreenCanvas
 }
 
