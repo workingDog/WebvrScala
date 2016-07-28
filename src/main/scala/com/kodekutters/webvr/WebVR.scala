@@ -1,7 +1,7 @@
 package com.kodekutters.webvr
 
 /*
- * Façade to the WebVR API, Editor’s Draft, 1 June 2016.
+ * Façade to the WebVR API, Editor’s Draft, 27 July 2016.
  *
  * [[https://w3c.github.io/webvr/]]
  *
@@ -50,7 +50,7 @@ class VRDisplay extends EventTarget {
     * If this VRDisplay supports room-scale experiences, the optional
     * stage attribute contains details on the room-scale parameters.
     */
-  val stageParameters: VRStageParameters = js.native
+  def stageParameters: VRStageParameters = js.native
 
   /* Return the current VREyeParameters for the given eye. */
   def getEyeParameters(whichEye: String): VREyeParameters = js.native
@@ -59,7 +59,7 @@ class VRDisplay extends EventTarget {
     * An identifier for this distinct VRDisplay. Used as an
     * association point in the Gamepad API.
     */
-  val displayId: Double = js.native
+  val displayId: Long = js.native
   /** A display name, a user-readable name identifying it. */
   val displayName: String = js.native
 
@@ -102,7 +102,7 @@ class VRDisplay extends EventTarget {
   var depthFar: Double = js.native
 
   /**
-    * The callback passed to `requestAnimationFrame` will be called
+    * The callback passed to "requestAnimationFrame" will be called
     * any time a new frame should be rendered. When the VRDisplay is
     * presenting the callback will be called at the native refresh
     * rate of the HMD. When not presenting this function acts
@@ -110,13 +110,13 @@ class VRDisplay extends EventTarget {
     * make no assumptions of frame rate or vsync behavior as the HMD runs
     * asynchronously from other displays and at differing refresh rates.
     */
-  def requestAnimationFrame(callback: js.Function1[Number, Any]): Double = js.native
+  def requestAnimationFrame(callback: js.Function): Long = js.native
 
   /**
     * Passing the value returned by requestAnimationFrame to
     * cancelAnimationFrame will unregister the callback.
     */
-  def cancelAnimationFrame(handle: Double): Unit = js.native
+  def cancelAnimationFrame(handle: Long): Unit = js.native
 
   /**
     * Begin presenting to the VRDisplay. Must be called in response to a user gesture.
@@ -149,7 +149,7 @@ trait VRDisplayCapabilities extends js.Object {
   val hasOrientation: Boolean
   val hasExternalDisplay: Boolean
   val canPresent: Boolean
-  val maxLayers: Double
+  val maxLayers: Long
 }
 
 /**
@@ -168,7 +168,7 @@ trait VRFieldOfView extends js.Object {
   */
 @ScalaJSDefined
 trait VRPose extends js.Object {
-  val timestamp: Double
+  val timestamp: Double  // DOMHighResTimeStamp
   val position: Float32Array
   val linearVelocity: Float32Array
   val linearAcceleration: Float32Array
@@ -184,8 +184,8 @@ trait VRPose extends js.Object {
 trait VREyeParameters extends js.Object {
   val offset: Float32Array
   val fieldOfView: VRFieldOfView
-  val renderWidth: Double
-  val renderHeight: Double
+  val renderWidth: Long
+  val renderHeight: Long
 }
 
 /**
@@ -194,8 +194,8 @@ trait VREyeParameters extends js.Object {
 @ScalaJSDefined
 trait VRStageParameters extends js.Object {
   val sittingToStandingTransform: Float32Array
-  val sizeX: Double
-  val sizeZ: Double
+  val sizeX: Float
+  val sizeZ: Float
 }
 
 /**
@@ -204,7 +204,7 @@ trait VRStageParameters extends js.Object {
 @ScalaJSDefined
 trait Navigator extends js.Object {
   def getVRDisplays(): Promise[js.Array[VRDisplay]]
-  val activeVRDisplays: js.Array[VRDisplay]
+  val activeVRDisplays: js.Array[VRDisplay]  // FrozenArray
 }
 
 /**
@@ -212,9 +212,11 @@ trait Navigator extends js.Object {
   */
 @ScalaJSDefined
 trait Window extends js.Object {
-  var onvrdisplayconnected: js.Function1[Event, Any]
-  var onvrdisplaydisconnected: js.Function1[Event, Any]
-  var onvrdisplaypresentchange: js.Function1[Event, Any]
+  var onvrdisplayconnected: EventHandler
+  var onvrdisplaydisconnected: EventHandler
+  var onvrdisplayactivate: EventHandler
+  var onvrdisplaydeactivate: EventHandler
+  var onvrdisplaypresentchange: EventHandler
 }
 
 /**
@@ -222,14 +224,41 @@ trait Window extends js.Object {
   */
 @ScalaJSDefined
 trait Gamepad extends js.Object {
-  val displayId: Double
+  val displayId: Long
 }
 
 /**
-  * represent the VREyeType as an enumeration
+  * represent the VREye as an enumeration
   */
 object VREye extends Enumeration {
   type VREye = Value
   val Left = Value("left")
   val Right = Value("right")
+}
+
+/**
+  * represent the VRDisplayEventReason as an enumeration
+  */
+object VRDisplayEventReason extends Enumeration {
+  type VRDisplayEventReason = Value
+  val Navigation = Value("navigation")
+  val Mounted = Value("mounted")
+  val Unmounted = Value("unmounted")
+}
+
+/**
+  * The VRDisplayEvent interface
+  */
+@ScalaJSDefined
+trait VRDisplayEvent extends Event {
+  val display: VRDisplay
+  val reason: String  // VRDisplayEventReason see implicit
+}
+
+object VRDisplayEvent {
+  def apply(display: VRDisplay, reason: String): VRDisplayEvent = {
+    js.Dynamic
+      .literal(display = display, reason = reason)
+      .asInstanceOf[VRDisplayEvent]
+  }
 }
