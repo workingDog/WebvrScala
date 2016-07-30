@@ -1,6 +1,9 @@
 package com.kodekutters.webvr
 
 /**
+  * The OffscreenCanvas interface provides a canvas that can be rendered off screen.
+  * It is available in both the window and worker contexts.
+  *
   * see [[https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas]]
   * and [[https://wiki.whatwg.org/wiki/OffscreenCanvas]]
   */
@@ -29,8 +32,7 @@ trait ImageBitmap extends js.Object {
 }
 
 /**
-  * The OffscreenCanvas interface provides a canvas that can be rendered off screen.
-  * It is available in both the window and worker contexts.
+  * OffscreenCanvas constructor. Creates a new OffscreenCanvas object.
   *
   * @param width  The width of the offscreen canvas.
   * @param height The height of the offscreen canvas.

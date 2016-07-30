@@ -17,10 +17,10 @@ import scala.scalajs.js.{Any, |}
   */
 package object webvr {
 
-  /** convert VREye type to its string representation, "left" or "right" */
+  /** converts VREye type to its string representation, "left" or "right" */
   implicit def VREyeToString(t: VREye): String = t.toString
 
-  /** convert VRDisplayEventReason type to its string representation */
+  /** converts VRDisplayEventReason type to its string representation */
   implicit def VRDisplayEventReasonToString(t: VRDisplayEventReason): String = t.toString
 
   type VRSource = HTMLCanvasElement | OffscreenCanvas
