@@ -7,6 +7,7 @@ package com.kodekutters.webvr
  *
  */
 
+
 import org.scalajs.dom._
 
 import scala.scalajs.js
@@ -22,15 +23,31 @@ import scala.language.implicitConversions
   */
 @ScalaJSDefined
 trait VRLayer extends js.Object {
+  /** The source attribute defines the canvas whose contents will be presented by the VRDisplay when VRDisplay.submitFrame() is called. */
   var source: VRSource
+  /** The leftBounds attribute contains four values defining the texture bounds within the
+    * source canvas to present to the eye in UV space:
+    * [0] left offset of the bounds (0.0 - 1.0);
+    * [1] top offset of the bounds (0.0 - 1.0); [2] width of the bounds (0.0 - 1.0); [3] height of the bounds (0.0 - 1.0).
+    * The leftBounds MUST default to [0.0, 0.0, 0.5, 1.0].
+    */
   var leftBounds: js.Array[Float]
+  /**
+    * The rightBounds attribute contains four values defining the texture bounds rectangle within the
+    * source canvas to present to the eye in UV space:
+    * [0] left offset of the bounds (0.0 - 1.0);
+    * [1] top offset of the bounds (0.0 - 1.0);
+    * [2] width of the bounds (0.0 - 1.0);
+    * [3] height of the bounds (0.0 - 1.0).
+    * The rightBounds MUST default to [0.5, 0.0, 0.5, 1.0].
+    */
   var rightBounds: js.Array[Float]
 }
 
 object VRLayer {
   def apply(source: VRSource, leftBounds: js.Array[Float], rightBounds: js.Array[Float]): VRLayer = {
     js.Dynamic
-      .literal(source = source.merge[js.Any] , leftBounds = leftBounds, rightBounds = rightBounds)
+      .literal(source = source.merge[js.Any], leftBounds = leftBounds, rightBounds = rightBounds)
       .asInstanceOf[VRLayer]
   }
 }
@@ -40,12 +57,14 @@ object VRLayer {
   * It includes generic information such as device IDs and descriptions.
   */
 @js.native
-class VRDisplay extends EventTarget {
+trait VRDisplay extends EventTarget {
   def isConnected: Boolean = js.native
+
   def isPresenting: Boolean = js.native
 
   /** Dictionary of capabilities describing the VRDisplay. */
   val capabilities: VRDisplayCapabilities = js.native
+
   /**
     * If this VRDisplay supports room-scale experiences, the optional
     * stage attribute contains details on the room-scale parameters.
@@ -168,7 +187,8 @@ trait VRFieldOfView extends js.Object {
   */
 @ScalaJSDefined
 trait VRPose extends js.Object {
-  val timestamp: Double  // DOMHighResTimeStamp
+  val timestamp: Double
+  // DOMHighResTimeStamp
   val position: Float32Array
   val linearVelocity: Float32Array
   val linearAcceleration: Float32Array
@@ -204,7 +224,8 @@ trait VRStageParameters extends js.Object {
 @ScalaJSDefined
 trait Navigator extends js.Object {
   def getVRDisplays(): Promise[js.Array[VRDisplay]]
-  val activeVRDisplays: js.Array[VRDisplay]  // FrozenArray
+
+  val activeVRDisplays: js.Array[VRDisplay] // FrozenArray
 }
 
 /**
@@ -247,18 +268,29 @@ object VRDisplayEventReason extends Enumeration {
 }
 
 /**
-  * The VRDisplayEvent interface
+  * The VRDisplayEvent
   */
-@ScalaJSDefined
-trait VRDisplayEvent extends Event {
-  val display: VRDisplay
-  val reason: String  // VRDisplayEventReason see implicit
+@js.native
+class VRDisplayEvent(eventInitDict: VRDisplayEventInit) extends Event {
+  /** The VRDisplay associated with this event. */
+  val display: VRDisplay = js.native
+  /**  VRDisplayEventReason describing why this event has has been fired. */
+  val reason: String = js.native // VRDisplayEventReason see implicit
 }
 
-object VRDisplayEvent {
-  def apply(display: VRDisplay, reason: String): VRDisplayEvent = {
+@ScalaJSDefined
+trait VRDisplayEventInit extends js.Object {
+  /** The VRDisplay associated with this event. */
+  val display: VRDisplay
+  /**  VRDisplayEventReason describing why this event has has been fired. */
+  val reason: String // VRDisplayEventReason see implicit
+}
+
+object VRDisplayEventInit {
+  def apply(display: VRDisplay, reason: String): VRDisplayEventInit = {
     js.Dynamic
       .literal(display = display, reason = reason)
-      .asInstanceOf[VRDisplayEvent]
+      .asInstanceOf[VRDisplayEventInit]
   }
 }
+
