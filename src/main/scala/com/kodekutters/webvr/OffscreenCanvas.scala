@@ -8,27 +8,28 @@ package com.kodekutters.webvr
   * and [[https://wiki.whatwg.org/wiki/OffscreenCanvas]]
   */
 
-import org.scalajs.dom.{Blob, Transferable}
+import org.scalajs.dom.Blob
 import org.scalajs.dom.webgl.RenderingContext
 
 import scala.concurrent.Promise
 import scala.scalajs.js
-import scala.scalajs.js.annotation.ScalaJSDefined
 
 
 /**
-  * It's crucial that there be a way to explicitly dispose of ImageBitmaps
-  * since they refer to potentially large graphics resources. Some uses
-  * of this API proposal will result in repeated allocations of ImageBitmaps,
-  * and garbage collection will not reliably reclaim them quickly enough.Here we reuse close(), which also exists on another Transferable type,
-  * MessagePort. Potentially, all Transferable types should inherit from a
-  * new interface type "Closeable".
+  * The ImageBitmap interface represents a bitmap image which can be drawn to a <canvas> without undue latency.
+  * It can be created from a variety of source objects using the createImageBitmap() factory method.
+  * ImageBitmap provides an asynchronous and resource efficient pathway to prepare textures for rendering in WebGL.
+  *
+  * [[https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap]]
   */
-@ScalaJSDefined
-trait ImageBitmap extends js.Object {
-  // todo should inherit from Transferable but it is sealed
-  /** Dispose of all graphical resources associated with this ImageBitmap. */
-  def close(): Unit
+@js.native
+class ImageBitmap extends js.Object {
+  /** Is an unsigned long representing the height, in CSS pixels, of the ImageData. */
+  def width: Int = js.native
+  /** Is an unsigned long representing the width, in CSS pixels, of the ImageData. */
+  def height: Int = js.native
+  /** Disposes of all graphical resources associated with an ImageBitmap. */
+  def close(): Unit = js.native
 }
 
 /**
