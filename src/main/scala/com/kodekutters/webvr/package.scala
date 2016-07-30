@@ -25,7 +25,7 @@ package object webvr {
 
   type VRSource = HTMLCanvasElement | OffscreenCanvas
 
-  type EventHandler = js.Function   // js.Function1[Event, Any]
+  type EventHandler = js.Function1[Event, _]
 
 }
 
