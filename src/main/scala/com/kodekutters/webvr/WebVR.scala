@@ -164,10 +164,26 @@ trait VRDisplay extends EventTarget {
   */
 @ScalaJSDefined
 trait VRDisplayCapabilities extends js.Object {
+  /** The hasPosition attribute MUST return whether the VRDisplay is capable of tracking its position. */
   val hasPosition: Boolean
+  /** The hasOrientation attribute MUST return whether the VRDisplay is capable of tracking its orientation. */
   val hasOrientation: Boolean
+  /** The hasExternalDisplay attribute MUST return whether the VRDisplay is separate
+    * from the device’s primary display. If presenting VR content will obscure other content on the device,
+    * this should be false. When false, the application should not attempt to
+    * mirror VR content or update non-VR UI because that content will not be visible.
+    */
   val hasExternalDisplay: Boolean
+  /**
+    * The canPresent attribute MUST return whether the VRDisplay is capable of presenting content
+    * to an HMD or similar device. Can be used to indicate "magic window" devices that are capable
+    * of 6DoF tracking but for which VRDisplay.requestPresent() is not meaningful.
+    * If false then calls to VRDisplay.requestPresent() should always fail, and VRDisplay.getEyeParameters() should return NULL.
+    */
   val canPresent: Boolean
+  /**
+    * Indicates the maximum length of the array that requestPresent() will accept. MUST be 1 if canPresent is true, 0 otherwise.
+    */
   val maxLayers: Long
 }
 
@@ -187,13 +203,38 @@ trait VRFieldOfView extends js.Object {
   */
 @ScalaJSDefined
 trait VRPose extends js.Object {
-  val timestamp: Double
-  // DOMHighResTimeStamp
+  /**
+    * Monotonically increasing value that allows the author to determine if position state data been updated from the hardware. Since values are monotonically increasing, they can be compared to determine the ordering of updates, as newer values will always be greater than or equal to older values.
+    */
+  val timestamp: Double // DOMHighResTimeStamp
+  /**
+    * Position of the VRDisplay at timestamp as a 3D vector. Position is given in meters from an origin point, which is either the position the sensor was first read at or the position of the sensor at the point that resetPose() was last called. The coordinate system uses these axis definitions:
+    * *
+    * Positive X is to the user’s right.
+    * Positive Y is up.
+    * Positive Z is behind the user.
+    * All positions are given relative to the identity orientation in sitting space. Transforming this point with VRStageParameters.sittingToStandingTransform converts this to standing space. MAY be NULL if the sensor is incapable of providing positional data. User agents MAY provide emulated position values through techniques such as neck modeling, but when doing so SHOULD report VRDisplayCapabilities.hasPosition as false. When not NULL MUST be a three-element array.
+    */
   val position: Float32Array
+  /** Linear velocity of the sensor at timestamp meters per second. MAY be NULL if the sensor is incapable of providing linear velocity. When not NULL MUST be a three-element array.
+    *
+    */
   val linearVelocity: Float32Array
+  /**
+    * Linear acceleration of the sensor at timestamp given in meters per second squared. MAY be NULL if the sensor is incapable of providing linear acceleration. When not NULL MUST be a three-element array.
+    */
   val linearAcceleration: Float32Array
+  /**
+    * Orientation of the sensor at timestamp as a quaternion. The orientation yaw (rotation around the Y axis) is relative to the initial yaw of the sensor when it was first read or the yaw of the sensor at the point that resetPose() was last called. An orientation of [0, 0, 0, 1] is considered to be "forward". MAY be NULL if the sensor is incapable of providing orientation data. When not NULL MUST be a four-element array.
+    */
   val orientation: Float32Array
+  /**
+    * Angular velocity of the sensor at timestamp given in radians per second. MAY be NULL if the sensor is incapable of providing angular velocity. When not NULL MUST be a three-element array.
+    */
   val angularVelocity: Float32Array
+  /**
+    * Angular acceleration of the sensor at timestamp given in radians per second squared. MAY be NULL if the sensor is incapable of providing angular acceleration. When not NULL MUST be a three-element array.
+    */
   val angularAcceleration: Float32Array
 }
 
@@ -202,9 +243,21 @@ trait VRPose extends js.Object {
   */
 @ScalaJSDefined
 trait VREyeParameters extends js.Object {
+  /**
+    * Offset from the center point between the users eyes to the center of the eye in meters. This value SHOULD represent half of the user’s interpupillary distance (IPD), but MAY also represent the distance from the center point of the headset to the center point of the lens for the given eye. Values for the left eye MUST be negative; values for the right eye MUST be positive.
+    */
   val offset: Float32Array
+  /**
+    * The current field of view for the eye, as the user adjusts her headset IPD.
+    */
   val fieldOfView: VRFieldOfView
+  /**
+    * Describes the recommended render target width of each eye viewport, in pixels. If multiple eyes are rendered in a single render target, then the render target should be made large enough to fit both viewports. The renderWidth for the left eye and right eye MUST NOT overlap, and the renderWidth for the right eye MUST be to the right of the renderWidth for the left eye.
+    */
   val renderWidth: Long
+  /**
+    * Describes the recommended render target height of each eye viewport, in pixels. If multiple eyes are rendered in a single render target, then the render target should be made large enough to fit both viewports. The renderWidth for the left eye and right eye MUST NOT overlap, and the renderWidth for the right eye MUST be to the right of the renderWidth for the left eye.
+    */
   val renderHeight: Long
 }
 
@@ -213,8 +266,17 @@ trait VREyeParameters extends js.Object {
   */
 @ScalaJSDefined
 trait VRStageParameters extends js.Object {
+  /**
+    * The sittingToStandingTransform attribute is a 16-element array containing the components of a 4×4 transform matrix. This matrix transforms the sitting-space position returned by getPose()/getImmediatePose() to a standing-space position.
+    */
   val sittingToStandingTransform: Float32Array
+  /**
+    * Width of the play-area bounds in meters. The bounds are defined as an axis-aligned rectangle on the floor. The center of the rectangle is at (0,0,0) in standing-space coordinates. These bounds are defined for safety purposes. Content should not require the user to move beyond these bounds; however, it is possible for the user to ignore the bounds resulting in position values outside of this rectangle.
+    */
   val sizeX: Float
+  /**
+    * Depth of the play-area bounds in meters. The bounds are defined as an axis-aligned rectangle on the floor. The center of the rectangle is at (0,0,0) in standing-space coordinates. These bounds are defined for safety purposes. Content should not require the user to move beyond these bounds; however, it is possible for the user to ignore the bounds resulting in position values outside of this rectangle.
+    */
   val sizeZ: Float
 }
 
@@ -223,8 +285,10 @@ trait VRStageParameters extends js.Object {
   */
 @ScalaJSDefined
 trait Navigator extends js.Object {
+  /** Return a Promise which resolves to a list of available VRDisplays. */
   def getVRDisplays(): Promise[js.Array[VRDisplay]]
 
+  /** activeVRDisplays includes every VRDisplay that is currently presenting. */
   val activeVRDisplays: js.Array[VRDisplay] // FrozenArray
 }
 
@@ -233,10 +297,15 @@ trait Navigator extends js.Object {
   */
 @ScalaJSDefined
 trait Window extends js.Object {
+  /** A user agent MAY dispatch this event type to indicate that a VRDisplay has been connected. */
   var onvrdisplayconnected: EventHandler
+  /** A user agent MAY dispatch this event type to indicate that a VRDisplay has been disconnected. */
   var onvrdisplaydisconnected: EventHandler
+  /** A user agent MAY dispatch this event type to indicate that something has occured which suggests the VRDisplay should be presented to. For example, if the VRDisplay is capable of detecting when the user has put it on, this event SHOULD fire when they do so with the reason "mounted". */
   var onvrdisplayactivate: EventHandler
+  /** A user agent MAY dispatch this event type to indicate that something has occured which suggests the VRDisplay should exit presentation. For example, if the VRDisplay is capable of detecting when the user has taken it off, this event SHOULD fire when they do so with the reason "unmounted". */
   var onvrdisplaydeactivate: EventHandler
+  /** A user agent MUST dispatch this event type to indicate that a VRDisplay has begun or ended VR presentation. This event should not fire on subsequent calls to requestPresent() after the VRDisplay has already begun VR presentation. */
   var onvrdisplaypresentchange: EventHandler
 }
 
@@ -245,11 +314,12 @@ trait Window extends js.Object {
   */
 @ScalaJSDefined
 trait Gamepad extends js.Object {
+  /** Return the displayId for the associated VRDisplay. */
   val displayId: Long
 }
 
 /**
-  * represent the VREye as an enumeration
+  * the VREye types, "left" ot "right"
   */
 object VREye extends Enumeration {
   type VREye = Value
@@ -258,12 +328,15 @@ object VREye extends Enumeration {
 }
 
 /**
-  * represent the VRDisplayEventReason as an enumeration
+  * the VRDisplayEventReason types
   */
 object VRDisplayEventReason extends Enumeration {
   type VRDisplayEventReason = Value
+  /** The page has been navigated to from a context that allows this page to begin presenting immediately, such as from another site that was already in VR presentation mode. */
   val Navigation = Value("navigation")
+  /** The VRDisplay has detected that the user has put it on. */
   val Mounted = Value("mounted")
+  /** The VRDisplay has detected that the user has taken it off. */
   val Unmounted = Value("unmounted")
 }
 
@@ -274,7 +347,7 @@ object VRDisplayEventReason extends Enumeration {
 class VRDisplayEvent(eventInitDict: VRDisplayEventInit) extends Event {
   /** The VRDisplay associated with this event. */
   val display: VRDisplay = js.native
-  /**  VRDisplayEventReason describing why this event has has been fired. */
+  /** VRDisplayEventReason describing why this event has has been fired. */
   val reason: String = js.native // VRDisplayEventReason see implicit
 }
 
@@ -282,7 +355,7 @@ class VRDisplayEvent(eventInitDict: VRDisplayEventInit) extends Event {
 trait VRDisplayEventInit extends js.Object {
   /** The VRDisplay associated with this event. */
   val display: VRDisplay
-  /**  VRDisplayEventReason describing why this event has has been fired. */
+  /** VRDisplayEventReason describing why this event has has been fired. */
   val reason: String // VRDisplayEventReason see implicit
 }
 
