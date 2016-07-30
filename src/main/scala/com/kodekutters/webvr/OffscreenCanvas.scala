@@ -1,5 +1,10 @@
 package com.kodekutters.webvr
 
+/**
+  * see [[https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas]]
+  * and [[https://wiki.whatwg.org/wiki/OffscreenCanvas]]
+  */
+
 import org.scalajs.dom.{Blob, Transferable}
 import org.scalajs.dom.webgl.RenderingContext
 
@@ -7,9 +12,6 @@ import scala.concurrent.Promise
 import scala.scalajs.js
 import scala.scalajs.js.annotation.ScalaJSDefined
 
-
-// see https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
-// and https://wiki.whatwg.org/wiki/OffscreenCanvas
 
 /**
   * It's crucial that there be a way to explicitly dispose of ImageBitmaps
@@ -22,7 +24,7 @@ import scala.scalajs.js.annotation.ScalaJSDefined
 @ScalaJSDefined
 trait ImageBitmap extends js.Object {
   // todo should inherit from Transferable but it is sealed
-  // Dispose of all graphical resources associated with this ImageBitmap.
+  /** Dispose of all graphical resources associated with this ImageBitmap. */
   def close(): Unit
 }
 

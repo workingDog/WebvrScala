@@ -209,7 +209,7 @@ trait VRPose extends js.Object {
   val timestamp: Double // DOMHighResTimeStamp
   /**
     * Position of the VRDisplay at timestamp as a 3D vector. Position is given in meters from an origin point, which is either the position the sensor was first read at or the position of the sensor at the point that resetPose() was last called. The coordinate system uses these axis definitions:
-    * *
+    *
     * Positive X is to the user’s right.
     * Positive Y is up.
     * Positive Z is behind the user.
@@ -217,7 +217,6 @@ trait VRPose extends js.Object {
     */
   val position: Float32Array
   /** Linear velocity of the sensor at timestamp meters per second. MAY be NULL if the sensor is incapable of providing linear velocity. When not NULL MUST be a three-element array.
-    *
     */
   val linearVelocity: Float32Array
   /**
