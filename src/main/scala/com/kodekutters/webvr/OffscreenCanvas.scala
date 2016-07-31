@@ -23,7 +23,7 @@ import scala.scalajs.js
   * [[https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap]]
   */
 @js.native
-class ImageBitmap extends js.Object {
+trait ImageBitmap extends js.Object {
   /** Is an unsigned long representing the height, in CSS pixels, of the ImageData. */
   def width: Int = js.native
   /** Is an unsigned long representing the width, in CSS pixels, of the ImageData. */
@@ -39,7 +39,7 @@ class ImageBitmap extends js.Object {
   * @param height The height of the offscreen canvas.
   */
 @js.native
-class OffscreenCanvas(width: Long, height: Long) extends js.Object {
+class OffscreenCanvas(width: Int, height: Int) extends js.Object {
 
   /**
     * The OffscreenCanvas.getContext() method returns a drawing context for an offscreen canvas,

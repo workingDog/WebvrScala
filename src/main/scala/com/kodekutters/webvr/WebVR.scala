@@ -78,7 +78,7 @@ trait VRDisplay extends EventTarget {
     * An identifier for this distinct VRDisplay. Used as an
     * association point in the Gamepad API.
     */
-  val displayId: Long = js.native
+  val displayId: Int = js.native
   /** A display name, a user-readable name identifying it. */
   val displayName: String = js.native
 
@@ -129,13 +129,13 @@ trait VRDisplay extends EventTarget {
     * make no assumptions of frame rate or vsync behavior as the HMD runs
     * asynchronously from other displays and at differing refresh rates.
     */
-  def requestAnimationFrame(callback: js.Function): Long = js.native
+  def requestAnimationFrame(callback: js.Function): Int = js.native
 
   /**
     * Passing the value returned by requestAnimationFrame to
     * cancelAnimationFrame will unregister the callback.
     */
-  def cancelAnimationFrame(handle: Long): Unit = js.native
+  def cancelAnimationFrame(handle: Int): Unit = js.native
 
   /**
     * Begin presenting to the VRDisplay. Must be called in response to a user gesture.
@@ -184,7 +184,7 @@ trait VRDisplayCapabilities extends js.Object {
   /**
     * Indicates the maximum length of the array that requestPresent() will accept. MUST be 1 if canPresent is true, 0 otherwise.
     */
-  val maxLayers: Long
+  val maxLayers: Int
 }
 
 /**
@@ -253,11 +253,11 @@ trait VREyeParameters extends js.Object {
   /**
     * Describes the recommended render target width of each eye viewport, in pixels. If multiple eyes are rendered in a single render target, then the render target should be made large enough to fit both viewports. The renderWidth for the left eye and right eye MUST NOT overlap, and the renderWidth for the right eye MUST be to the right of the renderWidth for the left eye.
     */
-  val renderWidth: Long
+  val renderWidth: Int
   /**
     * Describes the recommended render target height of each eye viewport, in pixels. If multiple eyes are rendered in a single render target, then the render target should be made large enough to fit both viewports. The renderWidth for the left eye and right eye MUST NOT overlap, and the renderWidth for the right eye MUST be to the right of the renderWidth for the left eye.
     */
-  val renderHeight: Long
+  val renderHeight: Int
 }
 
 /**
@@ -314,7 +314,7 @@ trait Window extends js.Object {
 @ScalaJSDefined
 trait Gamepad extends js.Object {
   /** Return the displayId for the associated VRDisplay. */
-  val displayId: Long
+  val displayId: Int
 }
 
 /**
