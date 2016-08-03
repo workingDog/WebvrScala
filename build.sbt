@@ -13,7 +13,10 @@ scalaVersion := "2.11.8"
 
 crossScalaVersions := Seq("2.11.8")
 
-libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.1"
+libraryDependencies ++= Seq(
+  "org.scala-js" %%% "scalajs-dom" % "0.9.1",
+  "com.github.workingDog" %%% "cesiumscala" % "1.3-SNAPSHOT"
+)
 
 jsDependencies += RuntimeDOM
 
