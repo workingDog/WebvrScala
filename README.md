@@ -56,6 +56,8 @@ For example you may have:
 Or declare an implicit to do this.
  
      implicit def navigatorExt(navigator: Navigator): NavigatorWebVR = navigator.asInstanceOf[NavigatorWebVR]
+     
+     val displays = window.navigator.getVRDisplays()
    
 ## Status
 
