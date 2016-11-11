@@ -18,10 +18,10 @@ The following supporting scala.js façades are included, **DeviceOrientation**, 
    
 ## References
 
-   1) [WebVR API](https://w3c.github.io/webvr/)
-   2) [GamePad API](https://w3c.github.io/gamepad/)
-   3) [DeviceOrientation API](https://developer.mozilla.org/en-US/docs/Web/Events/deviceorientation)
-   4) [OffscreenCanvas API](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas)
+1)  [WebVR API](https://w3c.github.io/webvr/)
+2)  [GamePad API](https://w3c.github.io/gamepad/)
+3)  [DeviceOrientation API](https://developer.mozilla.org/en-US/docs/Web/Events/deviceorientation)
+4)  [OffscreenCanvas API](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas)
    
    
 ## Usage   
