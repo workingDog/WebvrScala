@@ -7,11 +7,38 @@ in your browser.
 The [WebVR API](https://w3c.github.io/webvr/) provides purpose-built interfaces to VR hardware 
 to allow developers to build compelling, comfortable VR experiences.
 
-This interface follows the specification of the [WebVR API, Editor’s Draft, 3 November 2016](https://w3c.github.io/webvr/).
+This scala façade follows the specification of the [WebVR API, Editor’s Draft, 3 November 2016](https://w3c.github.io/webvr/).
 
 See also [MDN WebVR API Docs](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API) for additional information.
     
+## Inclusions
+    
+The following supporting scala.js façades are included, **DeviceOrientation**, **GamePad** and **OffscreenCanvas**.    
+   
+   
+## References
+
+   1) [WebVR API](https://w3c.github.io/webvr/)
+   2) [GamePad API](https://w3c.github.io/gamepad/)
+   3) [DeviceOrientation API](https://developer.mozilla.org/en-US/docs/Web/Events/deviceorientation)
+   4) [OffscreenCanvas API](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas)
+   
+   
+## Usage   
+   
+Note the **Window** extension for **WebVR** is called **WindowWebVR**, 
+similarly the **Navigator** extention is called **NavigatorWebVR**.
+For example you may have:
+
+    import org.scalajs.dom.Navigator
+    import org.scalajs.dom.window
+    
+    val displays = window.navigator.asInstanceOf[NavigatorWebVR].getVRDisplays()
+ 
+Or declare an implicit to do this.
+ 
+     implicit def navigatorExt(navigator: Navigator): NavigatorWebVR = navigator.asInstanceOf[NavigatorWebVR]
    
 ## Status
 
-experimental stage
+As with **WebVR** this is experimental
