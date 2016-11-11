@@ -6,6 +6,8 @@ package com.kodekutters.webvr
   *
   * see [[https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas]]
   * and [[https://wiki.whatwg.org/wiki/OffscreenCanvas]]
+  *
+  * see: Media Capture from DOM Element W3C Editor's Draft 03 November 2016
   */
 
 import org.scalajs.dom.Blob

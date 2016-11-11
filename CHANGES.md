@@ -1,6 +1,6 @@
 Change Log
 ==========
 
-## changes in 
+## changes in 0.2-SNAPSHOT
 
 
