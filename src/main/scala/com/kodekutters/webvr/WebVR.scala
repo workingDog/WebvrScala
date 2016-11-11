@@ -28,7 +28,9 @@ trait VRLayer extends js.Object {
   /** The leftBounds attribute contains four values defining the texture bounds within the
     * source canvas to present to the eye in UV space:
     * [0] left offset of the bounds (0.0 - 1.0);
-    * [1] top offset of the bounds (0.0 - 1.0); [2] width of the bounds (0.0 - 1.0); [3] height of the bounds (0.0 - 1.0).
+    * [1] top offset of the bounds (0.0 - 1.0);
+    * [2] width of the bounds (0.0 - 1.0);
+    * [3] height of the bounds (0.0 - 1.0).
     * The leftBounds MUST default to [0.0, 0.0, 0.5, 1.0].
     */
   var leftBounds: js.Array[Float]

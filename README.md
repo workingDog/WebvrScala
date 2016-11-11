@@ -45,7 +45,8 @@ Then in your app build.sbt file, simply include:
      "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT")
    
 Note the browser **Window** extension for **WebVR** is called **WindowWebVR**, 
-similarly the **Navigator** extention is called **NavigatorWebVR**.
+similarly the **Navigator** extention is called **NavigatorWebVR** and 
+**IFrameWebVR** for **IFrame**.
 For example you may have:
 
     import org.scalajs.dom.Navigator
