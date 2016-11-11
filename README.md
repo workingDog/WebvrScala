@@ -9,6 +9,7 @@ to allow developers to build compelling, comfortable VR experiences.
 
 This interface follows the specification of the [WebVR API, Editor’s Draft, 3 November 2016](https://w3c.github.io/webvr/).
 
+See also [MDN WebVR API Docs](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API) for additional information.
     
    
 ## Status
