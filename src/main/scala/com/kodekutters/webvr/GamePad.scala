@@ -1,7 +1,7 @@
 package com.kodekutters.webvr
 
 /*
- * Implements the Gamepad API. W3C Editor's Draft 01 November 2016
+ * Implements the Gamepad API. W3C Editor's Draft 03 December 2016
  *
  * [[https://w3c.github.io/gamepad/]]
  */
@@ -16,12 +16,12 @@ import scala.scalajs.js.annotation.{JSName, ScalaJSDefined}
 
 sealed class GamepadMappingType(val `type`: String)
 object GamepadMappingType {
-  case object Dash extends GamepadMappingType("_")
+  case object Empty extends GamepadMappingType("")
   case object Standard extends GamepadMappingType("standard")
 }
 
 /**
-  * Represents the state of a button.
+  * This interface defines the state of an individual button on a gamepad device.
   */
 @ScalaJSDefined
 trait GamepadButton extends js.Any {
@@ -44,7 +44,7 @@ trait GamepadButton extends js.Any {
 }
 
 /**
-  * Represents the state of a connected gamepad device.
+  * This interface defines an individual gamepad device.
   */
 @ScalaJSDefined
 trait Gamepad extends js.Any  {
@@ -53,7 +53,7 @@ trait Gamepad extends js.Any  {
   val id: String
 
   /** The index of the gamepad as returned by Navigator.getGamepads */
-  val index: Double
+  val index: Int
 
   /** True if this gamepad is currently connected. */
   val connected: Boolean
@@ -96,6 +96,6 @@ class GamepadEvent(init: GamepadEventInit) extends dom.Event {
 }
 
 @js.native
-trait GamepadNavigator extends js.Any {
+trait NavigatorGamepad extends js.Any {
   def getGamepads(): js.Array[Gamepad] = js.native
 }

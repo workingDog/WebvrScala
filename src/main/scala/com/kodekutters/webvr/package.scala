@@ -9,7 +9,7 @@ import scala.scalajs.js
 import scala.scalajs.js.{Any, |}
 
 /**
-  * WebVR API, W3C Editor's Draft 01 November 2016
+  * WebVR API, W3C Editor's Draft 2 December 2016
   *
   * [[https://w3c.github.io/webvr/]]
   */

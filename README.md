@@ -7,7 +7,7 @@ in your browser.
 The [WebVR API](https://w3c.github.io/webvr/) provides purpose-built interfaces to VR hardware 
 to allow developers to build compelling, comfortable VR experiences.
 
-This scala façade follows the specification of the [WebVR API, Editor’s Draft, 9 November 2016](https://w3c.github.io/webvr/).
+This scala façade follows the specification of the [WebVR API, Editor’s Draft, 2 December 2016](https://w3c.github.io/webvr/).
 
 See also [MDN WebVR API Docs](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API) for additional information.
     

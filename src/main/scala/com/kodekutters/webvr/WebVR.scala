@@ -1,7 +1,7 @@
 package com.kodekutters
 
 /*
- * Façade to the WebVR API, Editor’s Draft, 3 November 2016
+ * Façade to the WebVR API, Editor’s Draft, 2 December 2016
  *
  * [[https://w3c.github.io/webvr/]]
  *
@@ -24,7 +24,7 @@ import scala.language.implicitConversions
 @ScalaJSDefined
 trait VRLayer extends js.Object {
   /** The source attribute defines the canvas whose contents will be presented by the VRDisplay when VRDisplay.submitFrame() is called. */
-  var source: VRSource
+  def source: VRSource
   /** The leftBounds attribute contains four values defining the texture bounds within the
     * source canvas to present to the eye in UV space:
     * [0] left offset of the bounds (0.0 - 1.0);
@@ -33,7 +33,7 @@ trait VRLayer extends js.Object {
     * [3] height of the bounds (0.0 - 1.0).
     * The leftBounds MUST default to [0.0, 0.0, 0.5, 1.0].
     */
-  var leftBounds: js.Array[Float]
+  def leftBounds: js.Array[Float]
   /**
     * The rightBounds attribute contains four values defining the texture bounds rectangle within the
     * source canvas to present to the eye in UV space:
@@ -43,7 +43,7 @@ trait VRLayer extends js.Object {
     * [3] height of the bounds (0.0 - 1.0).
     * The rightBounds MUST default to [0.5, 0.0, 0.5, 1.0].
     */
-  var rightBounds: js.Array[Float]
+  def rightBounds: js.Array[Float]
 }
 
 object VRLayer {
