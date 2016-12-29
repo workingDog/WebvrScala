@@ -9,6 +9,8 @@ to allow developers to build compelling, comfortable VR experiences.
 
 This scala façade follows the specification of the [WebVR API, Editor’s Draft, 2 December 2016](https://w3c.github.io/webvr/).
 
+This interface allows WebVR to be used in [Scala.js](https://www.scala-js.org/) the Scala to javascript compiler.
+
 See also [MDN WebVR API Docs](https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API) for additional information.
     
 ## Inclusions
@@ -59,6 +61,8 @@ Or declare an implicit to do this.
      implicit def navigatorExt(navigator: Navigator): NavigatorWebVR = navigator.asInstanceOf[NavigatorWebVR]
      
      val displays = window.navigator.getVRDisplays()
+   
+See also [webvrcesium](https://github.com/workingDog/webvrcesium) for an example use of this Scala interface to WebVR API.   
    
 ## Status
 
