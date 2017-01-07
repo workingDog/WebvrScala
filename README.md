@@ -45,23 +45,7 @@ Then in your app build.sbt file, simply include:
      libraryDependencies ++= Seq(
      "org.scala-js" %%% "scalajs-dom" % "0.9.1",
      "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT")
-   
-Note the browser **Window** extension for **WebVR** is called **WindowWebVR**, 
-similarly the **Navigator** extention is called **NavigatorWebVR** and 
-**IFrameWebVR** for **IFrame**.
-For example you may have:
-
-    import org.scalajs.dom.Navigator
-    import org.scalajs.dom.window
     
-    val displays = window.navigator.asInstanceOf[NavigatorWebVR].getVRDisplays()
- 
-Or declare an implicit to do this.
- 
-     implicit def navigatorExt(navigator: Navigator): NavigatorWebVR = navigator.asInstanceOf[NavigatorWebVR]
-     
-     val displays = window.navigator.getVRDisplays()
-   
 See also [webvrcesium](https://github.com/workingDog/webvrcesium) for an example use of this Scala interface to WebVR API.   
    
 ## Status

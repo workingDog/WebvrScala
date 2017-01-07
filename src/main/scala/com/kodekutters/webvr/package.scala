@@ -1,6 +1,7 @@
 package com.kodekutters
 
-import org.scalajs.dom.Event
+import org.scalajs.dom.html.IFrame
+import org.scalajs.dom.{Event, Navigator, Window}
 
 import language.implicitConversions
 import org.scalajs.dom.raw.HTMLCanvasElement
@@ -19,4 +20,9 @@ package object webvr {
 
   type EventHandler = js.Function1[Event, _]
 
+  implicit def navigatorExt(navigator: Navigator): NavigatorWebVR = navigator.asInstanceOf[NavigatorWebVR]
+
+  implicit def windowExt(window: Window): WindowWebVR = window.asInstanceOf[WindowWebVR]
+
+  implicit def iframeExt(iframe: IFrame): IFrameWebVR = iframe.asInstanceOf[IFrameWebVR]
 }
