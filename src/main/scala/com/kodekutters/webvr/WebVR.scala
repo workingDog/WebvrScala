@@ -1,13 +1,15 @@
 package com.kodekutters
 
 /*
- * Façade to the WebVR API, Editor’s Draft, 2 December 2016
+ * Façade to the WebVR API, Editor’s Draft, 16 March 2017
+ *
+ * [[https://w3c.github.io/webvr/spec/latest/]]
  *
  * [[https://w3c.github.io/webvr/]]
  *
  */
 
-import com.kodekutters.webvr.{EventHandler, VRSource}
+import com.kodekutters.webvr.{EventHandler, Gamepad, VRSource}
 import org.scalajs.dom._
 import org.scalajs.dom.html.IFrame
 
@@ -56,8 +58,6 @@ object VRLayer {
 
 @ScalaJSDefined
 trait VRFrameData extends js.Object {
-  /** Monotonically increasing value that allows the author to determine if position state data been updated from the hardware. Since values are monotonically increasing, they can be compared to determine the ordering of updates, as newer values will always be greater than or equal to older values. The timestamp starts at 0 the first time getFrameData() is invoked for a given VRDisplay. */
-  def timestamp: Double // DOMHighResTimeStamp
   /** A 4x4 matrix describing the projection to be used for the left eye’s rendering, given as a 16 element array in column major order. This value may be passed directly to WebGL’s uniformMatrix4fv function. It is highly recommended that applications use this matrix without modification. Failure to use this projection matrix when rendering may cause the presented frame to be distorted or badly aligned, resulting in varying degrees of user discomfort. */
   def leftProjectionMatrix: Float32Array
   /** A 4x4 matrix describing the view transform to be used for the left eye’s rendering, given as a 16 element array in column major order. Represents the inverse of the model matrix of the left eye in sitting space. This value may be passed directly to WebGL’s uniformMatrix4fv function. It is highly recommended that applications use this matrix when rendering. */
@@ -181,6 +181,12 @@ trait VRDisplay extends EventTarget {
     * created without preserveDrawingBuffer set to true will be cleared.
     */
   def submitFrame(pose: VRPose = ???): Unit = js.native
+
+  var onactivate: EventHandler = js.native
+  var ondeactivate: EventHandler = js.native
+  var onblur: EventHandler = js.native
+  var onfocus: EventHandler = js.native
+  var onpresentchange: EventHandler = js.native
 }
 
 /**
@@ -311,19 +317,33 @@ trait VRStageParameters extends js.Object {
   val sizeZ: Float
 }
 
+
+/**
+  * VR Interface
+  */
+@js.native
+trait VR extends EventTarget {
+  /** Return a Promise and run the following steps in parallel:
+
+If the user has configured the UA to return a particular answer from this function for the current origin, queue a task to resolve the promise with the configured answer, and abort these steps.
+If the UA has the ability to use WebVR, queue a task to resolve the promise with true.
+Otherwise, queue a task to resolve the promise with false. */
+  def getAvailability(): Promise[Boolean] = js.native
+
+  /** Return a Promise which resolves to a list of available VRDisplays. */
+  def  getDisplays(): Promise[Array[VRDisplay]] = js.native
+
+  var ondisplayconnect: EventHandler = js.native
+  var ondisplaydisconnect: EventHandler = js.native
+  var onnavigate: EventHandler = js.native
+}
+
 /**
   * Navigator Interface extension
   */
 @js.native
 trait NavigatorWebVR extends Navigator {
-  /** Return a Promise which resolves to a list of available VRDisplays. */
-  def getVRDisplays(): Promise[js.Array[VRDisplay]] = js.native
-
-  /** activeVRDisplays includes every VRDisplay that is currently presenting. */
-  val activeVRDisplays: js.Array[VRDisplay] = js.native
-
-  /** The vrEnabled attribute’s getter must return true if the context object is allowed to use the feature indicated by attribute name allowvr and VR is supported, and false otherwise. */
-  def vrEnabled: Boolean = js.native
+  def vr: VR = js.native
 }
 
 /**
@@ -348,6 +368,14 @@ trait WindowWebVR extends Window {
 }
 
 /**
+  * Gamepad Interface extension
+  */
+@js.native
+trait GamepadWebVR extends Gamepad {
+  def displayId: Long = js.native
+}
+
+/**
   * the VREye types, "left" or "right"
   */
 sealed class VREye(val whichEye: String)
@@ -369,6 +397,14 @@ object VRDisplayEventReason {
   case object Unmounted extends VRDisplayEventReason("unmounted")
   /** The user agent MAY request start VR presentation mode. This allows user agents to include a consistent UI to enter VR across diferent sites. */
   case object Requested extends VRDisplayEventReason("requested")
+  /** The VRDisplay has lost focus. */
+  case object Blur extends VRDisplayEventReason("blur")
+  /** The VRDisplay has regained focus. */
+  case object Focus extends VRDisplayEventReason("focus")
+  /** The VRDisplay has entered presentation mode. */
+  case object PresentStart extends VRDisplayEventReason( "presentstart")
+  /** The VRDisplay has exited presentation mode. */
+  case object PresentEnd extends VRDisplayEventReason( "presentend")
 }
 
 /**
