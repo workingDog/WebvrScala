@@ -7,7 +7,7 @@ in your browser.
 The [WebVR API](https://w3c.github.io/webvr/) provides purpose-built interfaces to VR hardware 
 to allow developers to build compelling, comfortable VR experiences.
 
-This scala façade follows the specification of the [WebVR Editor’s Draft, 16 March 2017](https://w3c.github.io/webvr/spec/latest/).
+This scala façade follows the specification of the [WebVR Editor’s Draft, 17 April 2017](https://w3c.github.io/webvr/spec/latest/).
 
 This interface allows WebVR to be used in [Scala.js](https://www.scala-js.org/) the Scala to javascript compiler.
 
@@ -46,8 +46,7 @@ Then in your app build.sbt file, simply include:
      "org.scala-js" %%% "scalajs-dom" % "0.9.1",
      "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT")
     
-See also [webvrcesium](https://github.com/workingDog/webvrcesium) for an example use of this Scala interface to WebVR API.   
-   
+  
 ## Status
 
 As with **WebVR** this is experimental

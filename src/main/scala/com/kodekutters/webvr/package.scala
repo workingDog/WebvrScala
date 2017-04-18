@@ -10,13 +10,13 @@ import scala.scalajs.js
 import scala.scalajs.js.{Any, |}
 
 /**
-  * WebVR API, Editor’s Draft, 16 March 2017
+  * WebVR API, Editor’s Draft, Editor’s Draft, 17 April 2017
   *
   * [[https://w3c.github.io/webvr/]]
   */
 package object webvr {
 
-  type VRSource = HTMLCanvasElement | OffscreenCanvas
+  type VRCanvasSource = HTMLCanvasElement | OffscreenCanvas
 
   type EventHandler = js.Function1[Event, _]
 
@@ -27,4 +27,5 @@ package object webvr {
   implicit def gamepadExt(gamepad: Gamepad): GamepadWebVR = gamepad.asInstanceOf[GamepadWebVR]
 
   implicit def iframeExt(iframe: IFrame): IFrameWebVR = iframe.asInstanceOf[IFrameWebVR]
+
 }
