@@ -22,11 +22,16 @@ import scala.language.implicitConversions
 
 
 /**
-  *
+  * A VRLayer defines a source of bitmap images and a description of how the image is
+  * to be rendered in the VRDevice.
   */
 @js.native
 trait VRLayer extends js.Object
 
+/**
+  * A VRCanvasLayer defines a source of bitmap images and a description of how the image is to be rendered
+  * in the VRDevice.
+  */
 @js.native
 trait VRCanvasLayer extends VRLayer {
   var source: Option[VRCanvasSource] = js.native
@@ -81,7 +86,7 @@ trait VRSessionEventInit extends EventInit {
   val session: VRSessionEvent
 }
 
-@ScalaJSDefined
+@js.native
 trait VRSessionEvent extends Event {
   val session: VRSessionEvent
 }
@@ -94,6 +99,11 @@ object VRSessionEvent {
   }
 }
 
+/**
+  * The VRSourceProperties interface describes the ideal dimensions of a layer image for a VRDevice,
+  * taking into account the native resolution of the device and the distortion required to
+  * counteract an distortion introduced by the device’s optics.
+  */
 @js.native
 trait VRSourceProperties extends js.Object {
   val scale: Double = js.native
@@ -106,6 +116,9 @@ trait VRCoordinateSystem extends js.Object {
   def getTransformTo(other: VRCoordinateSystem): Float32Array = js.native
 }
 
+/**
+  * The VRStageBounds interface describes a space known as a "Stage".
+  */
 @js.native
 trait VRStageBounds extends js.Object {
   val minX: Double = js.native
@@ -132,9 +145,10 @@ object VRFrameOfReferenceType {
 }
 
 /**
-  *
+  * A VRDevicePose describes the position and orientation of a VRDevice relative to
+  * the VRCoordinateSystem it was queried with.
   */
-@ScalaJSDefined
+@js.native
 trait VRDevicePose extends js.Object {
   val leftProjectionMatrix: Float32Array
 
@@ -147,16 +161,24 @@ trait VRDevicePose extends js.Object {
   val poseModelMatrix: Float32Array
 }
 
+/**
+  * The VRSessionCreateParametersInit dictionary provides a session description,
+  * indicating the desired capabilities of a session to be returned from requestSession().
+  */
 @js.native
 trait VRSessionCreateParametersInit extends js.Object {
   def exclusive: Boolean = js.native
 }
+
 
 @js.native
 trait VRSessionCreateParameters extends js.Object {
   val exclusive: Boolean = js.native
 }
 
+/**
+  * A VRSession is the interface through with most interaction with a VRDevice happens.
+  */
 @js.native
 trait VRSession extends EventTarget {
 
@@ -181,7 +203,7 @@ trait VRSession extends EventTarget {
 }
 
 /**
-  *
+  * A VRDevice represents a physical unit of VR hardware
  */
 @js.native
 trait VRDevice extends EventTarget {

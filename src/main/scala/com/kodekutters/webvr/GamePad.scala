@@ -9,7 +9,7 @@ package com.kodekutters.webvr
 import org.scalajs.dom
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSName, ScalaJSDefined}
+import scala.scalajs.js.annotation.{JSGlobal, JSName, ScalaJSDefined}
 
 //@js.native
 //trait GamepadMappingType extends js.Any
@@ -89,7 +89,7 @@ object GamepadEventInit {
     js.Dynamic.literal("gamepad" -> gamepad).asInstanceOf[GamepadEventInit]
 }
 
-@JSName("GamepadEvent")
+@JSGlobal("GamepadEvent")
 @js.native
 class GamepadEvent(init: GamepadEventInit) extends dom.Event {
   val gamepad: Gamepad = js.native

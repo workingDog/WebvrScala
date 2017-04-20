@@ -15,6 +15,7 @@ import org.scalajs.dom.webgl.RenderingContext
 
 import scala.concurrent.Promise
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSGlobal
 
 
 /**
@@ -40,6 +41,7 @@ trait ImageBitmap extends js.Object {
   * @param width  The width of the offscreen canvas.
   * @param height The height of the offscreen canvas.
   */
+@JSGlobal
 @js.native
 class OffscreenCanvas(width: Int, height: Int) extends js.Object {
 

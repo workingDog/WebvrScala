@@ -3,8 +3,9 @@ package com.kodekutters.webvr
 import org.scalajs.dom
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.ScalaJSDefined
+import scala.scalajs.js.annotation.{JSGlobal, ScalaJSDefined}
 
+@JSGlobal
 @js.native
 class DeviceOrientationEvent(`type`: String, eventInitDict: DeviceOrientationEventInit) extends dom.Event {
 
@@ -80,6 +81,7 @@ trait DeviceRotationRate extends js.Any {
   val gamma: Double
 }
 
+@JSGlobal
 @js.native
 class DeviceMotionEvent extends dom.Event {
 

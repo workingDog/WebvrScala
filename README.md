@@ -32,6 +32,8 @@ The following supporting scala.js façades are included, **DeviceOrientation**, 
    
 To use this scala.js **WebVR** interface you need to have [scala-js-dom](https://github.com/scala-js/scala-js-dom)
    
+Using Scala.js-0.6.15 and Scala-2.11.11
+      
 ## Usage   
    
 To publish this library locally, type:
