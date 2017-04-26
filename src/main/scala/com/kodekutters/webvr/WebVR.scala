@@ -10,12 +10,9 @@ package com.kodekutters
  */
 
 import com.kodekutters.webvr.{EventHandler, Gamepad, VRCanvasSource}
-import org.scalajs.dom
 import org.scalajs.dom._
 import org.scalajs.dom.html.IFrame
-
 import scala.scalajs.js
-import scala.scalajs.js.annotation._
 import scala.scalajs.js.Promise
 import scala.scalajs.js.typedarray.Float32Array
 import scala.language.implicitConversions
@@ -45,15 +42,15 @@ trait VRCanvasLayer extends VRLayer {
 
   def getRightBounds(): Array[Double] = js.native
 
-  /** commit() captures the source canvas’s bitmap and submits it to the VR compositor. */
+  /** captures the source canvas’s bitmap and submits it to the VR compositor. */
   def commit(): Promise[Double] = js.native // todo ---> should be DOMHighResTimeStamp
 }
 
 object VRCanvasLayer {
-  def apply(session: VRSession, source: Option[VRCanvasSource]): VRLayer = {
+  def apply(session: VRSession, source: Option[VRCanvasSource]): VRCanvasLayer = {
     js.Dynamic
       .literal(session = session, source = source.asInstanceOf[js.Any]) // todo --->
-      .asInstanceOf[VRLayer]
+      .asInstanceOf[VRCanvasLayer]
   }
 }
 
