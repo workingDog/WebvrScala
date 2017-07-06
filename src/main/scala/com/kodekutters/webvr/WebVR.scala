@@ -15,8 +15,6 @@ import org.scalajs.dom.html.IFrame
 import scala.scalajs.js
 import scala.scalajs.js.Promise
 import scala.scalajs.js.typedarray.Float32Array
-import scala.language.implicitConversions
-
 
 /**
   * A VRLayer defines a source of bitmap images and a description of how the image is

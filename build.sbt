@@ -9,11 +9,11 @@ version := (version in ThisBuild).value
 
 scalaJSStage in Global := FullOptStage // FastOptStage
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.12.2"
 
-crossScalaVersions := Seq("2.11.11")
+crossScalaVersions := Seq("2.12.2")
 
-libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.1"
+libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2"
 
 
 jsDependencies += RuntimeDOM

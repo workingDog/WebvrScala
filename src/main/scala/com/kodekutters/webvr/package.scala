@@ -7,7 +7,7 @@ import language.implicitConversions
 import org.scalajs.dom.raw.HTMLCanvasElement
 
 import scala.scalajs.js
-import scala.scalajs.js.{Any, |}
+import scala.scalajs.js.|
 
 /**
   * WebVR API, Editor’s Draft, Editor’s Draft, 17 April 2017

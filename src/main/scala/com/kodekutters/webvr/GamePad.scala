@@ -9,7 +9,7 @@ package com.kodekutters.webvr
 import org.scalajs.dom
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSGlobal, JSName, ScalaJSDefined}
+import scala.scalajs.js.annotation.{JSGlobal, ScalaJSDefined}
 
 //@js.native
 //trait GamepadMappingType extends js.Any
