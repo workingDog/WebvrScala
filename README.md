@@ -29,10 +29,8 @@ The following supporting scala.js façades are included, **DeviceOrientation**, 
 4)  [OffscreenCanvas API](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas)
    
 ## Dependencies
-   
-To use this scala.js **WebVR** interface you need to have [scala-js-dom](https://github.com/scala-js/scala-js-dom)
-   
-Using Scala.js-0.6.15 and Scala-2.11.11
+      
+Using Scala.js-0.6.18, scalajs-dom-0.9.2 and Scala-2.12.2
       
 ## Usage   
    
@@ -42,13 +40,10 @@ To publish this library locally, type:
    
 This will put "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT" into your local repository.
 
-Then in your app build.sbt file, simply include:
+Then in your [Scala.js](https://www.scala-js.org/) app build.sbt file, simply include:
     
-     libraryDependencies ++= Seq(
-     "org.scala-js" %%% "scalajs-dom" % "0.9.1",
-     "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT")
+     libraryDependencies += "com.github.workingDog" %%% "webvrscala" % "0.1-SNAPSHOT"
     
-  
 ## Status
 
 As with **WebVR** this is experimental
