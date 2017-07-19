@@ -4,21 +4,24 @@ import org.scalajs.dom.html.IFrame
 import org.scalajs.dom.{Event, Navigator, Window}
 
 import language.implicitConversions
-import org.scalajs.dom.raw.HTMLCanvasElement
+import org.scalajs.dom.raw.WebGLRenderingContext
+import io.scalajs.dom.html.canvas.webgl.WebGL2RenderingContext
 
 import scala.scalajs.js
 import scala.scalajs.js.|
 
 /**
-  * WebVR API, Editor’s Draft, Editor’s Draft, 17 April 2017
+  * WebVR API, Editor’s Draft, Editor’s Draft, 18 July 2017
   *
   * [[https://w3c.github.io/webvr/]]
   */
 package object webvr {
 
-  type VRCanvasSource = HTMLCanvasElement | OffscreenCanvas
+  type VRWebGLRenderingContext = WebGLRenderingContext | WebGL2RenderingContext
 
   type EventHandler = js.Function1[Event, _]
+
+  type VRFrameRequestCallback = js.Function1[VRPresentationFrame, _]
 
   implicit def navigatorExt(navigator: Navigator): NavigatorWebVR = navigator.asInstanceOf[NavigatorWebVR]
 

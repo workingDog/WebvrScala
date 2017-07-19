@@ -1,7 +1,7 @@
 package com.kodekutters
 
 /*
- * Façade to the WebVR API, Editor’s Draft, 17 April 2017
+ * Façade to the WebVR API, Editor’s Draft, 18 July 2017
  *
  * [[https://w3c.github.io/webvr/spec/latest/]]
  *
@@ -9,9 +9,11 @@ package com.kodekutters
  *
  */
 
-import com.kodekutters.webvr.{EventHandler, Gamepad, VRCanvasSource}
+import com.kodekutters.webvr.{EventHandler, Gamepad, VRFrameRequestCallback, VRWebGLRenderingContext}
 import org.scalajs.dom._
 import org.scalajs.dom.html.IFrame
+import org.scalajs.dom.raw.WebGLFramebuffer
+
 import scala.scalajs.js
 import scala.scalajs.js.Promise
 import scala.scalajs.js.typedarray.Float32Array
@@ -23,33 +25,59 @@ import scala.scalajs.js.typedarray.Float32Array
 @js.native
 trait VRLayer extends js.Object
 
-/**
-  * A VRCanvasLayer defines a source of bitmap images and a description of how the image is to be rendered
-  * in the VRDevice.
-  */
 @js.native
-trait VRCanvasLayer extends VRLayer {
-  /** The source defines a canvas whose contents will be presented by the VRDevice when commit() is called. */
-  var source: VRCanvasSource = js.native
-
-  def setLeftBounds(left: Double, bottom: Double, right: Double, top: Double): Unit = js.native
-
-  def getLeftBounds(): Array[Double] = js.native
-
-  def setRightBounds(left: Double, bottom: Double, right: Double, top: Double): Unit = js.native
-
-  def getRightBounds(): Array[Double] = js.native
-
-  /** captures the source canvas’s bitmap and submits it to the VR compositor. */
-  def commit(): Promise[Double] = js.native // todo ---> should be DOMHighResTimeStamp
+trait WebGLContextAttributes extends js.Object {
+  def compatibleVrDevice: VRDevice = js.native
 }
 
-object VRCanvasLayer {
-  def apply(session: VRSession, source: Option[VRCanvasSource]): VRCanvasLayer = {
+@js.native
+trait WebGLRenderingContextBase extends js.Object {
+  def setCompatibleVrDevice(device: VRDevice): Promise[Unit] = js.native
+}
+
+/**
+  * The VRWebGLLayerInit dictionary indicates the desired properites of a VRWebGLLayer's framebuffer.
+  */
+@js.native
+trait VRWebGLLayerInit extends js.Object {
+  val antialias: Boolean = js.native
+  val depth: Boolean = js.native
+  val stencil: Boolean = js.native
+  val alpha: Boolean = js.native
+  val multiview: Boolean = js.native
+  val framebufferScaleFactor: Double = js.native
+}
+
+@js.native
+trait VRWebGLLayer extends VRLayer {
+
+  var context: VRWebGLRenderingContext = js.native
+
+  def requestViewportScaling(viewportScaleFactor: Double): Unit = js.native
+
+  val antialias: Boolean = js.native
+  val depth: Boolean = js.native
+  val stencil: Boolean = js.native
+  val alpha: Boolean = js.native
+  val multiview: Boolean = js.native
+
+  val framebuffer: WebGLFramebuffer = js.native
+  val framebufferWidth: Long = js.native
+  val framebufferHeight: Long = js.native
+
+}
+
+object VRWebGLLayer {
+  def apply(session: VRSession, context: VRWebGLRenderingContext, layerInit: Option[VRWebGLLayerInit]): VRWebGLLayer = {
     js.Dynamic
-      .literal(session = session, source = source.asInstanceOf[js.Any]) // todo --->
-      .asInstanceOf[VRCanvasLayer]
+      .literal(session = session, context = context.asInstanceOf[js.Any], layerInit = layerInit.asInstanceOf[js.Any])
+      .asInstanceOf[VRWebGLLayer]
   }
+}
+
+@js.native
+trait VRDeviceEventInit extends EventInit {
+  val device: VRDevice = js.native
 }
 
 @js.native
@@ -74,18 +102,13 @@ trait EventInit extends js.Object {
 }
 
 @js.native
-trait VRDeviceEventInit extends EventInit {
-  val device: VRDevice = js.native
-}
-
-@js.native
 trait VRSessionEventInit extends EventInit {
-  val session: VRSessionEvent = js.native
+  val session: VRSession = js.native
 }
 
 @js.native
 trait VRSessionEvent extends Event {
-  val session: VRSessionEvent = js.native
+  val session: VRSession = js.native
 }
 
 object VRSessionEvent {
@@ -96,24 +119,33 @@ object VRSessionEvent {
   }
 }
 
-/**
-  * The VRSourceProperties interface describes the ideal dimensions of a layer image for a VRDevice,
-  * taking into account the native resolution of the device and the distortion required to
-  * counteract an distortion introduced by the device’s optics.
-  */
 @js.native
-trait VRSourceProperties extends js.Object {
-  /** scale returns the scale provided to getSourceProperties() if one was given. If not, it returns the scale recommended by the system. */
-  val scale: Double = js.native
-  /** width describe the dimensions a layer image should ideally be in order to appear on the device at a scale:1 pixel ratio. */
-  val width: Long = js.native
-  /** height describe the dimensions a layer image should ideally be in order to appear on the device at a scale:1 pixel ratio. */
-  val height: Long = js.native
+trait VRCoordinateSystemEventInit extends EventInit {
+  val coordinateSystem: VRCoordinateSystem = js.native
 }
 
 @js.native
-trait VRCoordinateSystem extends js.Object {
+trait VRCoordinateSystemEvent extends Event {
+  val coordinateSystem: VRCoordinateSystem = js.native
+}
+
+object VRCoordinateSystemEvent {
+  def apply(eventType: String, eventInitDict: VRCoordinateSystemEventInit): VRCoordinateSystemEvent = {
+    js.Dynamic
+      .literal(`type` = eventType, eventInitDict = eventInitDict)
+      .asInstanceOf[VRCoordinateSystemEvent]
+  }
+}
+
+@js.native
+trait VRCoordinateSystem extends EventTarget {
   def getTransformTo(other: VRCoordinateSystem): Float32Array = js.native
+}
+
+@js.native
+trait VRStageBoundsPoint extends js.Object {
+  val x: Double = js.native
+  val z: Double = js.native
 }
 
 /**
@@ -121,15 +153,13 @@ trait VRCoordinateSystem extends js.Object {
   */
 @js.native
 trait VRStageBounds extends js.Object {
-  val minX: Double = js.native
-  val maxX: Double = js.native
-  val minZ: Double = js.native
-  val maxZ: Double = js.native
+  val geometry: Array[VRStageBoundsPoint] = js.native
 }
 
 @js.native
 trait VRFrameOfReference extends VRCoordinateSystem {
   val bounds: VRStageBounds = js.native
+  var onboundschange: EventHandler = js.native
 }
 
 sealed class VRFrameOfReferenceType(val frameType: String)
@@ -150,15 +180,10 @@ object VRFrameOfReferenceType {
   */
 @js.native
 trait VRDevicePose extends js.Object {
-  def leftProjectionMatrix: Float32Array
 
-  def leftViewMatrix: Float32Array
+  def getViewMatrix(view: VRView): Float32Array = js.native
 
-  def rightProjectionMatrix: Float32Array
-
-  def rightViewMatrix: Float32Array
-
-  def poseModelMatrix: Float32Array
+  def poseModelMatrix: Float32Array = js.native
 }
 
 /**
@@ -178,6 +203,39 @@ trait VRSessionCreateParameters extends js.Object {
   def exclusive: Boolean = js.native
 }
 
+sealed class VREye(val eye: String)
+
+object VREye {
+
+  case object Left extends VREye("left")
+
+  case object Right extends VREye("right")
+
+}
+
+@js.native
+trait VRViewport extends js.Object {
+  var x: Long = js.native
+  var y: Long = js.native
+  var width: Long = js.native
+  var height: Long = js.native
+}
+
+@js.native
+trait VRView extends js.Object {
+  val eye: VREye = js.native
+  val projectionMatrix: Float32Array = js.native
+
+  def getViewPort(layer: VRLayer): VRViewport = js.native
+}
+
+@js.native
+trait VRPresentationFrame extends js.Object {
+  val views: Array[VRView] = js.native
+
+  def getDevicePose(coordinateSystem: VRCoordinateSystem): VRDevicePose = js.native
+}
+
 /**
   * A VRSession is the interface through with most interaction with a VRDevice happens.
   */
@@ -191,11 +249,11 @@ trait VRSession extends EventTarget {
   var depthFar: Double = js.native
   var baseLayer: VRLayer = js.native
 
-  def getSourceProperties(scale: Option[Double]): VRSourceProperties = js.native
+  def requestFrameOfReference(frameType: VRFrameOfReferenceType): Promise[VRFrameOfReference] = js.native
 
-  def createFrameOfReference(frameType: VRFrameOfReferenceType): Promise[VRFrameOfReference] = js.native
+  def requestFrame(callback: VRFrameRequestCallback): Long = js.native
 
-  def getDevicePose(coordinateSystem: VRCoordinateSystem): VRDevicePose = js.native
+  def cancelFrame(handle: Long): Unit = js.native
 
   def endSession(): Promise[Unit] = js.native
 
@@ -205,6 +263,8 @@ trait VRSession extends EventTarget {
   var onfocus: EventHandler = js.native
   /** an Event handler IDL attribute for the resetpose event type. */
   var onresetpose: EventHandler = js.native
+  /** an Event handler IDL attribute for the ended event type. */
+  var onended: EventHandler = js.native
 }
 
 /**
@@ -218,14 +278,8 @@ trait VRDevice extends EventTarget {
   /** true if the VRDevice hardware is a separate physical device from the system’s main device. */
   def isExternal: Boolean = js.native
 
-  /** A VRDevice has an active session, initially null, which is the VRSession that is currently accessing and/or presenting to the device. */
-  var activeSession: VRSession = js.native
-  /** an Event handler IDL attribute for the activate event type. */
-  var onactivate: EventHandler = js.native
   /** an Event handler IDL attribute for the deactivate event type. */
   var ondeactivate: EventHandler = js.native
-  /** an Event handler IDL attribute for the sessionchange event type. */
-  var onsessionchange: EventHandler = js.native
 
   /** If the requested session description is supported by the device, resolve promise with true else false */
   def supportsSession(parameters: VRSessionCreateParametersInit): Promise[Boolean] = js.native
@@ -247,8 +301,6 @@ trait VR extends EventTarget {
   var ondeviceconnect: EventHandler = js.native
   /** an Event handler IDL attribute for the devicedisconnect event type. */
   var ondevicedisconnect: EventHandler = js.native
-  /** an Event handler IDL attribute for the navigate event type. */
-  var onnavigate: EventHandler = js.native
 }
 
 /**
