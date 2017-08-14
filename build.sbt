@@ -9,10 +9,10 @@ version := (version in ThisBuild).value
 
 scalaJSStage in Global := FullOptStage // FastOptStage
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.3"
 
 libraryDependencies ++= Seq(
-  "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+  "org.scala-js" %%% "scalajs-dom" % "0.9.3",
   "io.scalajs" %%% "dom-html" % "0.4.0"
 )
 

@@ -11,7 +11,7 @@ import scala.scalajs.js
 import scala.scalajs.js.|
 
 /**
-  * WebVR API, Editor’s Draft, Editor’s Draft, 18 July 2017
+  * WebVR API, Editor’s Draft, Editor’s Draft, 8 August 2017
   *
   * [[https://w3c.github.io/webvr/]]
   */

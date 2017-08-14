@@ -1,7 +1,7 @@
 package com.kodekutters
 
 /*
- * Façade to the WebVR API, Editor’s Draft, 18 July 2017
+ * Façade to the WebVR API, Editor’s Draft, 8 August 2017
  *
  * [[https://w3c.github.io/webvr/spec/latest/]]
  *
@@ -255,7 +255,7 @@ trait VRSession extends EventTarget {
 
   def cancelFrame(handle: Long): Unit = js.native
 
-  def endSession(): Promise[Unit] = js.native
+  def end(): Promise[Unit] = js.native
 
   /** an Event handler IDL attribute for the blur event type. */
   var onblur: EventHandler = js.native
@@ -264,7 +264,7 @@ trait VRSession extends EventTarget {
   /** an Event handler IDL attribute for the resetpose event type. */
   var onresetpose: EventHandler = js.native
   /** an Event handler IDL attribute for the ended event type. */
-  var onended: EventHandler = js.native
+  var onend: EventHandler = js.native
 }
 
 /**
