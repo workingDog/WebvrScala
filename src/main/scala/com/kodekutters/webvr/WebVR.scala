@@ -1,7 +1,7 @@
 package com.kodekutters
 
 /*
- * Façade to the WebVR API, Editor’s Draft, 8 August 2017
+ * Façade to the WebVR API, Editor’s Draft, 6 September 2017
  *
  * [[https://w3c.github.io/webvr/spec/latest/]]
  *
@@ -27,12 +27,12 @@ trait VRLayer extends js.Object
 
 @js.native
 trait WebGLContextAttributes extends js.Object {
-  def compatibleVrDevice: VRDevice = js.native
+  def compatibleVRDevice: VRDevice = js.native
 }
 
 @js.native
 trait WebGLRenderingContextBase extends js.Object {
-  def setCompatibleVrDevice(device: VRDevice): Promise[Unit] = js.native
+  def setCompatibleVRDevice(device: VRDevice): Promise[Unit] = js.native
 }
 
 /**
